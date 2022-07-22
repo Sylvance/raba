@@ -19,6 +19,8 @@ services:
       - .:/usr/src/raba
     ports:
       - "3000:3000"
+    environment:
+      - REDIS_URL=redis://redis:6379
     depends_on:
       - db
       - redis

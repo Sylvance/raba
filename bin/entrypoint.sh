@@ -1,8 +1,23 @@
 #!/bin/bash
 set -e
 
-# Remove a potentially pre-existing server.pid for Rails.
-rm -f /usr/src/app/tmp/pids/server.pid
+if [ -f /app/tmp/pids/server.pid ]; then
+  rm /usr/src/raba/tmp/pids/server.pid
+fi
 
-# Then exec the container's main process (what's set as CMD in the Dockerfile).
-exec "$@"
+case "$1" in
+"server")
+  shift
+  exec bundle exec puma -C config/puma.rb "$@"
+  ;;
+"sidekiq")
+  shift
+  exec bundle exec sidekiq  "$@"
+  ;;
+"migrate")
+  exec bundle exec rake db:migrate 2>/dev/null || bundle exec rake db:setup
+  ;;
+*)
+  exec "$@"
+  ;;
+esac

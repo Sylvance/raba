@@ -4,11 +4,11 @@ FROM ruby:3.0.4
 
 RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/raba
 
-COPY Gemfile /usr/src/app/Gemfile
+COPY Gemfile /usr/src/raba/Gemfile
 
-COPY Gemfile.lock /usr/src/app/Gemfile.lock
+COPY Gemfile.lock /usr/src/raba/Gemfile.lock
 
 RUN bundle install
 
@@ -20,4 +20,4 @@ ENTRYPOINT ["entrypoint.sh"]
 
 EXPOSE 3000
 
-CMD ["rails", "server", "-b", "0.0.0.0"]
+CMD [ "server"]

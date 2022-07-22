@@ -18,6 +18,11 @@
 !/tmp/pids/
 !/tmp/pids/.keep
 
+# Ignore data files, but keep the directory.
+/tmp/data/*
+!/tmp/data/
+!/tmp/data/.keep
+
 # Ignore uploaded files in development.
 /storage/*
 !/storage/.keep

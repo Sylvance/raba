@@ -15,6 +15,20 @@ services:
     volumes:
       - ./tmp/redis:/data
 
+  migrate:
+    build: .
+    volumes:
+      - .:/usr/src/raba
+    command: ["migrate"]
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_HOST=db
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=password
+    depends_on:
+      - db
+      - redis
+
   web:
     build: .
     volumes:

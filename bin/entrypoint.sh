@@ -15,7 +15,9 @@ case "$1" in
   exec bundle exec sidekiq  "$@"
   ;;
 "migrate")
-  exec bundle exec rake db:migrate 2>/dev/null || bundle exec rake db:setup
+  exec bundle exec rake db:create
+  exec bundle exec rake db:seed
+  exec bundle exec rake db:migrate
   ;;
 *)
   exec "$@"

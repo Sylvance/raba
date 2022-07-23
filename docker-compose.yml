@@ -11,14 +11,32 @@ services:
   redis:
     image: redis:latest
     ports:
-      - '6379:6379'
+      - 6379:6379
+    volumes:
+      - ./tmp/redis:/data
 
   web:
     build: .
     volumes:
       - .:/usr/src/raba
+    command: ["server"]
     ports:
-      - "3000:3000"
+      - 3000:3000
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_HOST=db
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=password
+    depends_on:
+      - db
+      - redis
+
+  sidekiq:
+    build: .
+    volumes:
+      - .:/usr/src/raba
+      - /usr/src/raba/tmp
+    command: ["sidekiq"]
     environment:
       - REDIS_URL=redis://redis:6379
       - DATABASE_HOST=db
